@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+PNG to JPG Converter
+</title>
+<style>
+
+img {
+  border: 5px solid white;
+}
+
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        background-color: #36393F;
+      }
+      h1 {
+        color: #FFFFFF;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        display: inline-block;
+        margin: 0 10px;
+      }
+      a {
+        color: #1a75ff;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #0050b3;
+      }
+      p {
+      color: #FFFFFF;
+       }
+    </style>
+<body>
+
+<h1>PNG to JPG Converter</h1>
+
+<input type="file" id="pngFileInput" accept=".png">
+<button onclick="convertPNGtoJPG()">Convert PNG to JPG</button>
+
+<br><br>
+<center>
+<img id="jpgImage" style="display:none">
+</center>
+<script>
+function convertPNGtoJPG() {
+  var pngFile = document.getElementById("pngFileInput").files[0];
+  var reader = new FileReader();
+  reader.onload = function(event) {
+    var pngImage = new Image();
+    pngImage.onload = function() {
+      var jpgImage = new Image();
+      jpgImage.src = pngToJpeg(pngImage);
+      document.getElementById("jpgImage").src = jpgImage.src;
+      document.getElementById("jpgImage").style.display = "block";
+    }
+    pngImage.src = event.target.result;
+  }
+  reader.readAsDataURL(pngFile);
+}
+
+function pngToJpeg(pngImage) {
+  var canvas = document.createElement("canvas");
+  canvas.width = pngImage.width;
+  canvas.height = pngImage.height;
+  canvas.getContext("2d").drawImage(pngImage, 0, 0);
+  return canvas.toDataURL("image/jpeg");
+}
+</script>
+
+</body>
+</html>
